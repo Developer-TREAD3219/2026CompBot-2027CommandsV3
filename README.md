@@ -1,3 +1,11 @@
+** NOTE: If we do not change from Commands V2 to V3, we won't need to change structure of Command files and Subsystem files.
+
+WPILib docs state that both the v2 and v3 libraries will be supported side-by-side for several seasons. 
+The v2 library will only be removed when usage reporting shows nearly zero usage.
+
+Should we change now or wait?
+   
+
 Steps used to import 2026 project into 2027 for conversion to Systemcore from roboRIO:
 
 1. Copy 2026 project to a new folder
@@ -29,9 +37,11 @@ changes:
 - ??silenceJoystickConnectionWarning replaced by ????
 - XboxController replace by org.wpilib.driverstation.Gamepad
 - References to CAN need CAN Port and Device ID (SparkMax, Talon, etc)
-- SparkMax need to be configured for a motor type of VOLTAGE, and use the .SetVoltage instead of .Set for speed (What voltage should be used?  5V? 12V?)
+- SparkMax need to be configured for a motor type of VOLTAGE, and use the .SetVoltage instead of .Set for speed (What voltage should be used? 12V?)
 - Relative encoders used with SparkMax need to add .Get() to .GetPosition()   For example, climberEncoder.getPosition().get()
 - Lots of changes to DriveSubsystem for swerve.  E.g. SwerveModuleState renamed to SwerveModuleVelocity, .getState() gone.
+
+  COMMAND V3 SPECIFIC CHANGES:
 - Commands no longer extend Command, now extend Mechanism (import org.wpilib.command3.Mechanism;)
 - Commands must be named, even InstantCommands (e.g. add .named("sample name") to end of .setDefaultCommand)
 - Subsystems now use "implements Mechanism" instead of "extends SubsystemBase"
