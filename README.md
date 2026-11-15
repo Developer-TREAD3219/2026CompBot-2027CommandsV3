@@ -40,6 +40,12 @@ changes:
 - SparkMax need to be configured for a motor type of VOLTAGE, and use the .SetVoltage instead of .Set for speed (What voltage should be used? 12V?)
 - Relative encoders used with SparkMax need to add .Get() to .GetPosition()   For example, climberEncoder.getPosition().get()
 - Lots of changes to DriveSubsystem for swerve.  E.g. SwerveModuleState renamed to SwerveModuleVelocity, .getState() gone.
+- Limelight - removed Jackson (com.fasterxml.jackson) and replaced it with Avaje Jsonb (can convert or manually import FasterXML libraries)
+- Swerve - SwerveModuleState was renamed to SwerveModuleVelocity (and ChassisSpeeds is now ChassisVelocities). Google "wpilib 2027 maxswervemodule.getstate migration to velocity java example"
+- org.wpilib.hardware.hal.FRCNetComm and HAL.report() replaced by new Usage Reporting API in org.wpilib.util (org.wpilib.util.UsageReporting)
+   Usage reporting is strictly telemetry collected by the Field Management System (FMS) so FIRST can track hardware and library adoption across teams.
+   Removing or updating the call has zero effect on your swerve module's kinematics, SPARK MAX/Flex motor control, or odometry.
+  Should we just remove it?
 
   COMMAND V3 SPECIFIC CHANGES:
 - Commands no longer extend Command, now extend Mechanism (import org.wpilib.command3.Mechanism;)
