@@ -1,16 +1,18 @@
 package frc.robot.subsystems;
 
-import org.wpilib.command2.SubsystemBase;
+import org.wpilib.command3.Mechanism;
 import org.wpilib.hardware.discrete.AnalogInput;
 import org.wpilib.math.controller.PIDController;
-import org.wpilib.smartdashboard.SmartDashboard;
+//2026 version: import org.wpilib.smartdashboard.SmartDashboard;
+import org.wpilib.telemetry.Telemetry;
 
 import frc.robot.Constants.LauncherConstants;
 import frc.robot.Constants.ShootingConstants;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 
-public class LauncherHoodSubsystem extends SubsystemBase {
+//2026 versin: public class LauncherHoodSubsystem extends SubsystemBase {
+public class LauncherHoodSubsystem implements Mechanism {
   enum States {
     STOPPED,
     FULLRETRACT,
@@ -20,7 +22,9 @@ public class LauncherHoodSubsystem extends SubsystemBase {
 
   private States state = States.STOPPED;
   private int canID = LauncherConstants.kHoodControllerCanId;
-  private SparkMax m_hoodController = new SparkMax(canID, MotorType.kBrushed);
+  // 2026 version: private SparkMax m_hoodController = new SparkMax(canID, MotorType.kBrushed);
+  //2027 need to add valid canPort value
+  private SparkMax m_hoodController = new SparkMax(null, canID, MotorType.kBrushed);
   private AnalogInput reading = new AnalogInput(LauncherConstants.kHoodPort);
   private double minSetpoint = LauncherConstants.kHoodMinSetpoint;
   private double maxSetpoint = LauncherConstants.kHoodMaxSetpoint;
@@ -31,8 +35,12 @@ public class LauncherHoodSubsystem extends SubsystemBase {
   public LauncherHoodSubsystem() {
     m_hoodPID.setSetpoint(minSetpoint);
     // Initialize dashboard entries so Elastic can display them as widgets
+    /*2026 version:
     SmartDashboard.putBoolean("Hood Manual Mode", false);
     SmartDashboard.putNumber("Hood Manual Setpoint", 0.0);
+    */
+    Telemetry.log("Hood Manual Mode", false);
+    Telemetry.log("Hood Manual Setpoint", 0.0);
   }
 
   public void startRetracting() {
@@ -69,7 +77,8 @@ public class LauncherHoodSubsystem extends SubsystemBase {
 
   public void stop() {
     state = States.STOPPED;
-    m_hoodController.set(0.0);
+    // 2026 version: m_hoodController.set(0.0);
+    m_hoodController.setVoltage(0.0);
   }
 
   public double getPosition() {
